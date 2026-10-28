@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>CleanAir Window — India CPCB Air Quality Planner (Pune, Mumbai, Delhi)</title>
+  <meta name="description" content="A hackathon MVP dashboard helping outdoor enthusiasts identify the cleanest air window of the day across Pune, Mumbai, and Delhi using India's CPCB National AQI." />
+
+  <!-- Google Font: Plus Jakarta Sans / Inter -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+  <!-- Header / Navigation Bar -->
+  <header class="site-header">
+    <div class="container header-container">
+      <div class="brand">
+        <div class="logo-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17.5 19H9a7 7 0 1 1 6.71-9h1.79a4.5 4.5 0 1 1 0 9Z" />
+            <path d="M7 15h10" />
+            <path d="M8 12h6" />
+          </svg>
+        </div>
+        <div class="brand-text">
+          <h1 class="brand-title">CleanAir Window</h1>
+          <p class="brand-tagline">India CPCB National Air Quality Activity Planner</p>
+        </div>
+      </div>
+
+      <!-- Prominent Sample Data Banner -->
+      <div class="sample-badge-wrapper">
+        <span class="sample-badge" role="status" aria-label="Notice: Sample Data only">
+          <span class="pulse-dot" aria-hidden="true"></span>
+          <strong>SAMPLE DATA — NOT REAL READINGS</strong>
+        </span>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Dashboard -->
+  <main class="dashboard-main">
+    <div class="container">
+
+      <!-- Top Control Bar: Location & Activity -->
+      <section class="controls-panel" aria-label="Dashboard Controls">
+        <div class="controls-grid">
+          
+          <!-- Location Selector (Pune, Mumbai, Delhi) -->
+          <div class="control-card location-selector-card">
+            <div class="control-label-row">
+              <label for="location-select" class="control-label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z" />
+                  <circle cx="12" cy="10" r="3" />
+                </svg>
+                Select Monitored Indian Station
+              </label>
+              <span class="cpcb-scale-tag" title="Central Pollution Control Board National AQI standard">Scale: CPCB NAQI (0–500)</span>
+            </div>
+            
+            <div class="select-wrapper">
+              <select id="location-select" class="custom-select" aria-describedby="location-scenario-hint">
+                <!-- Dynamically populated from JS dataset -->
+              </select>
+            </div>
+            <p id="location-scenario-hint" class="scenario-hint"></p>
+          </div>
+
+          <!-- Activity Selector -->
+          <div class="control-card activity-selector-card">
+            <div class="control-label-row">
+              <span class="control-label">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M18 4h2a2 2 0 0 1 2 2v2" />
+                  <path d="M4 18H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+                  <circle cx="12" cy="12" r="6" />
+                </svg>
+                Planned Outdoor Activity
+              </span>
+              <span class="neutral-hint">Does not alter best window</span>
+            </div>
+
+            <div class="activity-btn-group" role="radiogroup" aria-label="Activity selection">
+              <button type="button" class="activity-btn active" data-activity="walking" role="radio" aria-checked="true">
+                <span class="activity-icon" aria-hidden="true">🚶</span>
+                <span class="activity-text">Walking</span>
+              </button>
+              <button type="button" class="activity-btn" data-activity="jogging" role="radio" aria-checked="false">
+                <span class="activity-icon" aria-hidden="true">🏃</span>
+                <span class="activity-text">Jogging</span>
+              </button>
+              <button type="button" class="activity-btn" data-activity="cycling" role="radio" aria-checked="false">
+                <span class="activity-icon" aria-hidden="true">🚴</span>
+                <span class="activity-text">Cycling</span>
+              </button>
+            </div>
+            <p class="activity-note">Adjusts physiological precautions according to CPCB impact tiers without shifting the lowest-AQI time window.</p>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Recommendation Hero Section -->
+      <section class="recommendation-hero" id="recommendation-section" aria-live="polite">
+        <!-- Injected via JavaScript -->
+      </section>
+
+      <!-- Time Slots Grid: Morning, Afternoon, Evening -->
+      <section class="slots-section" aria-labelledby="slots-heading">
+        <div class="section-header-flex">
+          <div>
+            <h2 id="slots-heading" class="section-title">Today's Monitored Time Windows</h2>
+            <p class="section-subtitle">Simulated diurnal particulate &amp; gaseous concentrations across Pune, Mumbai, &amp; Delhi</p>
+          </div>
+          <div class="data-mode-tag">
+            <span>CPCB-Aligned Simulated Data</span>
+          </div>
+        </div>
+
+        <div class="slots-grid" id="slots-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </section>
+
+      <!-- Two Column Layout: Chart & Activity Guidance -->
+      <div class="analytics-layout-grid">
+        
+        <!-- Interactive AQI Chart -->
+        <section class="chart-panel card" aria-labelledby="chart-heading">
+          <div class="panel-header">
+            <div>
+              <h2 id="chart-heading" class="panel-title">CPCB AQI Comparative Timeline</h2>
+              <p class="panel-subtitle">Visualizing Indian National AQI progression across daily windows</p>
+            </div>
+            <div class="chart-legend-pill">
+              <span class="legend-color-box good"></span> Good (0–50)
+              <span class="legend-color-box sat"></span> Sat (51–100)
+              <span class="legend-color-box mod"></span> Mod (101–200)
+              <span class="legend-color-box poor"></span> Poor (201+)
+            </div>
+          </div>
+          <div class="chart-container" style="position: relative; height: 280px; width: 100%;">
+            <canvas id="aqi-comparison-chart"></canvas>
+          </div>
+          <div class="chart-footnote">
+            <span class="chart-footnote-icon">ℹ️</span>
+            <span>CPCB Threshold: Readings exceeding <strong>100 AQI</strong> transition to Moderate/Poor/Very Poor, triggering sensitive group alerts. Missing slots are excluded.</span>
+          </div>
+        </section>
+
+        <!-- Dynamic Activity Precautions & Guidance -->
+        <section class="guidance-panel card" aria-labelledby="guidance-heading">
+          <div class="panel-header">
+            <div>
+              <h2 id="guidance-heading" class="panel-title">Activity-Specific Guidance</h2>
+              <p class="panel-subtitle">Tailored respiratory safeguards for <strong id="active-activity-label">Walking</strong></p>
+            </div>
+            <div id="activity-intensity-badge" class="intensity-pill low">
+              Low Exertion
+            </div>
+          </div>
+
+          <div id="guidance-content" class="guidance-body">
+            <!-- Dynamically injected -->
+          </div>
+        </section>
+
+      </div>
+
+      <!-- India CPCB National AQI Reference Scale Strip -->
+      <section class="scale-section card" aria-labelledby="scale-heading">
+        <h3 id="scale-heading" class="scale-title">India Central Pollution Control Board (CPCB) NAQI Reference Scale</h3>
+        <p class="scale-description">The official Indian National Air Quality Index standard published by the Ministry of Environment, Forest and Climate Change (MoEFCC).</p>
+        
+        <div class="aqi-scale-bar" role="list" aria-label="CPCB AQI Categories">
+          <div class="scale-tier tier-good" role="listitem">
+            <div class="tier-range">0 – 50</div>
+            <div class="tier-name">Good</div>
+            <div class="tier-desc">Minimal impact. Ideal for all outdoor activities.</div>
+          </div>
+          <div class="scale-tier tier-satisfactory" role="listitem">
+            <div class="tier-range">51 – 100</div>
+            <div class="tier-name">Satisfactory</div>
+            <div class="tier-desc">Minor breathing discomfort to sensitive people.</div>
+          </div>
+          <div class="scale-tier tier-moderate" role="listitem">
+            <div class="tier-range">101 – 200</div>
+            <div class="tier-name">Moderate</div>
+            <div class="tier-desc">Breathing discomfort to people with lung disease, asthma and heart disease.</div>
+          </div>
+          <div class="scale-tier tier-poor" role="listitem">
+            <div class="tier-range">201 – 300</div>
+            <div class="tier-name">Poor</div>
+            <div class="tier-desc">Breathing discomfort to most people on prolonged exposure.</div>
+          </div>
+          <div class="scale-tier tier-very-poor" role="listitem">
+            <div class="tier-range">301 – 400</div>
+            <div class="tier-name">Very Poor</div>
+            <div class="tier-desc">Respiratory illness to people on prolonged exposure. Move workouts indoors.</div>
+          </div>
+          <div class="scale-tier tier-severe" role="listitem">
+            <div class="tier-range">401 – 500</div>
+            <div class="tier-name">Severe</div>
+            <div class="tier-desc">Affects healthy people and seriously impacts vulnerable populations. Avoid outdoors.</div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Government Data Source & Investigation Card -->
+      <section class="gov-source-card" role="region" aria-label="Official Data Source Investigation Notice">
+        <div class="gov-source-header">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <line x1="12" y1="16" x2="12" y2="12" />
+            <line x1="12" y1="8" x2="12.01" y2="8" />
+          </svg>
+          Official Government Data Source Investigation Findings
+        </div>
+        <p>
+          <strong>CPCB &amp; Data.gov.in Integration Review:</strong> CleanAir Window evaluated connecting directly to India's official government endpoints (the Open Government Data platform <code>api.data.gov.in</code> and CPCB's CAAQMS feed). Official <code>data.gov.in</code> APIs require private registered citizen/developer API keys, and CPCB's XML feed does not support client-side browser CORS headers or time-segmented daily slots. To guarantee reliable, secure client-side execution without exposing API credentials or breaking in browsers, <strong>clearly labelled simulated readings</strong> formatted strictly to CPCB NAQI specifications are provided for Pune, Mumbai, and Delhi.
+        </p>
+      </section>
+
+      <!-- Safety & Medical Disclaimer Card -->
+      <section class="disclaimer-card" role="region" aria-label="Medical and Safety Disclaimer">
+        <div class="disclaimer-icon-col" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+            <path d="M12 8v4" />
+            <path d="M12 16h.01" />
+          </svg>
+        </div>
+        <div class="disclaimer-text-col">
+          <h4 class="disclaimer-title">General Guidance &amp; Safety Disclaimer</h4>
+          <p>
+            <strong>Not Medical Advice:</strong> CleanAir Window provides general informational calculations derived from <strong>simulated mock data</strong> aligned with CPCB NAQI parameters. Readings do not reflect real-time live governmental broadcasts or certified local meteorological forecasts.
+          </p>
+          <p>
+            <strong>No Guarantee of Safe Breathing Conditions:</strong> Selecting the time slot with the lowest AQI indicates <em>relative</em> comparison within the day and does <strong>not</strong> guarantee safe atmospheric conditions. Individuals with respiratory conditions (such as asthma, COPD, bronchitis), cardiovascular disease, children, pregnant individuals, and older adults may experience adverse reactions even in "Satisfactory" or relatively cleaner windows. Always consult certified healthcare providers and official regional CPCB/SPCB bulletins before undertaking strenuous outdoor exercise.
+          </p>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <div class="footer-left">
+        <strong>CleanAir Window</strong> — India Edition
+        <span class="footer-dot">•</span>
+        <span>Pune, Mumbai, &amp; Delhi Monitored Stations</span>
+      </div>
+      <div class="footer-right">
+        <span>India CPCB NAQI Scale (MoEFCC Standard)</span>
+        <span class="footer-dot">•</span>
+        <span>Transparent Mock Data Protocol</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Load Sample Data Script First (Ensures instant loading even when opened directly via file://) -->
+  <script src="sample-data.js"></script>
+  <!-- Load Main Application Logic -->
+  <script src="script.js"></script>
+</body>
+</html>

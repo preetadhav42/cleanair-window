@@ -1,0 +1,1234 @@
+/* ==========================================================================
+   CleanAir Window — Modern Hackathon MVP Stylesheet
+   Standard: India Central Pollution Control Board (CPCB) National AQI (NAQI)
+   Design Philosophy: Crisp, Accessible, Trustworthy, Modern Scientific Dashboard
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   CSS Variables & Design Tokens (CPCB NAQI Palette)
+   -------------------------------------------------------------------------- */
+:root {
+  /* Brand Accents */
+  --brand-primary: #0f766e;
+  --brand-primary-hover: #115e59;
+  --brand-teal: #14b8a6;
+  --brand-light: #f0fdfa;
+  --brand-border: #ccfbf1;
+  --brand-navy: #0f172a;
+
+  /* India CPCB NAQI Standard Category Palette */
+  /* 1. Good (0 - 50) */
+  --cpcb-good-bg: #ecfdf5;
+  --cpcb-good-border: #86efac;
+  --cpcb-good-text: #14532d;
+  --cpcb-good-badge: #16a34a;
+
+  /* 2. Satisfactory (51 - 100) */
+  --cpcb-sat-bg: #f7fee7;
+  --cpcb-sat-border: #bef264;
+  --cpcb-sat-text: #365314;
+  --cpcb-sat-badge: #65a30d;
+
+  /* 3. Moderate (101 - 200) */
+  --cpcb-mod-bg: #fffbeb;
+  --cpcb-mod-border: #fde68a;
+  --cpcb-mod-text: #92400e;
+  --cpcb-mod-badge: #d97706;
+
+  /* 4. Poor (201 - 300) */
+  --cpcb-poor-bg: #fff7ed;
+  --cpcb-poor-border: #fed7aa;
+  --cpcb-poor-text: #9a3412;
+  --cpcb-poor-badge: #ea580c;
+
+  /* 5. Very Poor (301 - 400) */
+  --cpcb-vpoor-bg: #fef2f2;
+  --cpcb-vpoor-border: #fca5a5;
+  --cpcb-vpoor-text: #991b1b;
+  --cpcb-vpoor-badge: #dc2626;
+
+  /* 6. Severe (401 - 500) */
+  --cpcb-severe-bg: #fff1f2;
+  --cpcb-severe-border: #fda4af;
+  --cpcb-severe-text: #450a0a;
+  --cpcb-severe-badge: #7f1d1d;
+
+  --cpcb-missing-bg: #f8fafc;
+  --cpcb-missing-border: #cbd5e1;
+  --cpcb-missing-text: #64748b;
+
+  /* Surfaces & Neutrals */
+  --bg-page: #f8fafc;
+  --bg-surface: #ffffff;
+  --bg-surface-elevated: #ffffff;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  
+  /* Typography Colors */
+  --text-main: #0f172a;
+  --text-muted: #475569;
+  --text-subtle: #64748b;
+
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.07), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.08), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+  --shadow-winner: 0 12px 24px -4px rgba(15, 118, 110, 0.16), 0 4px 8px -2px rgba(15, 118, 110, 0.08);
+
+  /* Radii */
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* --------------------------------------------------------------------------
+   Reset & Base Styles
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: var(--bg-page);
+  color: var(--text-main);
+  line-height: 1.55;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
+}
+
+button, select {
+  font: inherit;
+}
+
+/* --------------------------------------------------------------------------
+   Header & Sample Data Badge
+   -------------------------------------------------------------------------- */
+.site-header {
+  background-color: var(--bg-surface);
+  border-bottom: 1px solid var(--border-subtle);
+  padding: 1.1rem 0;
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  backdrop-filter: blur(8px);
+  background-color: rgba(255, 255, 255, 0.95);
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 0.85rem;
+}
+
+.logo-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: var(--radius-md);
+  background: linear-gradient(135deg, #0f766e, #14b8a6);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 10px rgba(20, 184, 166, 0.35);
+  flex-shrink: 0;
+}
+
+.brand-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--brand-navy);
+  line-height: 1.2;
+}
+
+.brand-tagline {
+  font-size: 0.825rem;
+  color: var(--text-subtle);
+  font-weight: 500;
+}
+
+/* Sample Data Banner Badge */
+.sample-badge-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.sample-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: #fef3c7;
+  border: 1px solid #f59e0b;
+  color: #92400e;
+  padding: 0.45rem 0.9rem;
+  border-radius: var(--radius-full);
+  font-size: 0.775rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  box-shadow: var(--shadow-sm);
+  text-transform: uppercase;
+}
+
+.pulse-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #d97706;
+  position: relative;
+}
+
+.pulse-dot::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 50%;
+  border: 2px solid #d97706;
+  animation: pulse-ring 2s infinite ease-out;
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.9); opacity: 1; }
+  100% { transform: scale(2.2); opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   Main Content Layout
+   -------------------------------------------------------------------------- */
+.dashboard-main {
+  flex: 1;
+  padding: 2rem 0 3.5rem;
+}
+
+/* --------------------------------------------------------------------------
+   Control Panel: Location & Activity Selectors
+   -------------------------------------------------------------------------- */
+.controls-panel {
+  margin-bottom: 2rem;
+}
+
+.controls-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.25rem;
+}
+
+.control-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.25rem 1.4rem;
+  box-shadow: var(--shadow-sm);
+  transition: border-color var(--transition-fast);
+}
+
+.control-card:hover {
+  border-color: var(--border-strong);
+}
+
+.control-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.75rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.control-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+}
+
+.cpcb-scale-tag, .neutral-hint {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--brand-primary);
+  background-color: var(--brand-light);
+  padding: 0.2rem 0.55rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--brand-border);
+}
+
+.neutral-hint {
+  color: var(--text-subtle);
+  background-color: #f1f5f9;
+  border-color: var(--border-subtle);
+}
+
+.select-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.custom-select {
+  width: 100%;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: #f8fafc;
+  border: 1px solid var(--border-strong);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 2.5rem 0.75rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.custom-select:hover {
+  background-color: #ffffff;
+  border-color: var(--brand-teal);
+}
+
+.custom-select:focus {
+  outline: none;
+  border-color: var(--brand-primary);
+  box-shadow: 0 0 0 3px rgba(15, 118, 110, 0.15);
+  background-color: #ffffff;
+}
+
+.select-wrapper::after {
+  content: '';
+  position: absolute;
+  right: 1.1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 10px;
+  height: 6px;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 10 6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L5 5L9 1' stroke='%23475569' stroke-width='1.75' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  pointer-events: none;
+}
+
+.scenario-hint {
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+  margin-top: 0.55rem;
+  line-height: 1.4;
+}
+
+/* Activity Toggle Buttons */
+.activity-btn-group {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 0.5rem;
+}
+
+.activity-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.65rem 0.5rem;
+  background-color: #f1f5f9;
+  border: 1.5px solid transparent;
+  border-radius: var(--radius-md);
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.activity-btn:hover {
+  background-color: #e2e8f0;
+  color: var(--text-main);
+}
+
+.activity-btn.active {
+  background-color: var(--brand-primary);
+  color: #ffffff;
+  border-color: var(--brand-primary);
+  box-shadow: 0 3px 8px rgba(15, 118, 110, 0.25);
+}
+
+.activity-btn:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.4);
+}
+
+.activity-icon {
+  font-size: 1.1rem;
+}
+
+.activity-note {
+  font-size: 0.775rem;
+  color: var(--text-subtle);
+  margin-top: 0.55rem;
+  line-height: 1.4;
+}
+
+/* --------------------------------------------------------------------------
+   Recommendation Hero Card
+   -------------------------------------------------------------------------- */
+.recommendation-hero {
+  margin-bottom: 2.25rem;
+}
+
+.recom-card {
+  border-radius: var(--radius-lg);
+  padding: 1.75rem 2rem;
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-winner);
+  border: 1.5px solid;
+  transition: all var(--transition-normal);
+}
+
+/* State 1: Recommended Window (Clean / Good or Satisfactory) */
+.recom-card.status-recommended {
+  background: linear-gradient(135deg, #ffffff 0%, #f0fdfa 100%);
+  border-color: var(--brand-teal);
+}
+
+/* State 2: Recommended Window with Caution (> 100 AQI: Moderate, Poor, Very Poor, Severe) */
+.recom-card.status-caution {
+  background: linear-gradient(135deg, #ffffff 0%, #fff7ed 100%);
+  border-color: #ea580c;
+}
+
+/* State 3: Insufficient Data (< 2 Valid readings) */
+.recom-card.status-insufficient {
+  background: linear-gradient(135deg, #ffffff 0%, #fef2f2 100%);
+  border-color: #fca5a5;
+}
+
+.recom-header-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.recom-badge-group {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.recom-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-full);
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.recom-badge.primary {
+  background-color: var(--brand-primary);
+  color: #ffffff;
+}
+
+.recom-badge.tie {
+  background-color: #0284c7;
+  color: #ffffff;
+}
+
+.recom-badge.alert {
+  background-color: #dc2626;
+  color: #ffffff;
+}
+
+.recom-content-grid {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 1.75rem;
+  align-items: center;
+}
+
+.recom-title {
+  font-size: 1.75rem;
+  font-weight: 800;
+  letter-spacing: -0.025em;
+  color: var(--brand-navy);
+  line-height: 1.2;
+  margin-bottom: 0.35rem;
+}
+
+.recom-time-range {
+  font-size: 1.05rem;
+  color: var(--text-muted);
+  font-weight: 600;
+  margin-bottom: 0.75rem;
+}
+
+.recom-explanation {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  max-width: 680px;
+}
+
+/* Right Metric Box */
+.recom-metric-box {
+  background-color: #ffffff;
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+  padding: 1.1rem 1.6rem;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  min-width: 175px;
+}
+
+.recom-aqi-num {
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  display: block;
+}
+
+.recom-aqi-label {
+  font-size: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-weight: 700;
+  color: var(--text-subtle);
+  margin-top: 0.25rem;
+}
+
+.recom-category-tag {
+  display: inline-block;
+  margin-top: 0.6rem;
+  font-size: 0.775rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: var(--radius-full);
+}
+
+/* Tie Callout Box */
+.tie-alert-box {
+  margin-top: 1.1rem;
+  padding: 0.85rem 1.1rem;
+  background-color: #f0f9ff;
+  border: 1px solid #bae6fd;
+  border-left: 4px solid #0284c7;
+  border-radius: var(--radius-sm);
+  color: #0369a1;
+  font-size: 0.875rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.6rem;
+}
+
+.tie-alert-box strong {
+  font-weight: 700;
+}
+
+/* Caution Callout Box (AQI > 100) */
+.caution-alert-box {
+  margin-top: 1.1rem;
+  padding: 0.95rem 1.2rem;
+  background-color: #fff7ed;
+  border: 1px solid #fed7aa;
+  border-left: 4px solid #ea580c;
+  border-radius: var(--radius-sm);
+  color: #9a3412;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  line-height: 1.45;
+}
+
+.caution-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+/* Insufficient Data State */
+.insufficient-container {
+  text-align: center;
+  padding: 1.5rem 1rem;
+}
+
+.insufficient-icon {
+  width: 54px;
+  height: 54px;
+  margin: 0 auto 1rem;
+  border-radius: 50%;
+  background-color: #fee2e2;
+  color: #dc2626;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.insufficient-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: #991b1b;
+  margin-bottom: 0.5rem;
+}
+
+.insufficient-desc {
+  max-width: 580px;
+  margin: 0 auto;
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+}
+
+/* --------------------------------------------------------------------------
+   Time Slots Grid
+   -------------------------------------------------------------------------- */
+.slots-section {
+  margin-bottom: 2.25rem;
+}
+
+.section-header-flex {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 1.25rem;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.section-title {
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--brand-navy);
+}
+
+.section-subtitle {
+  font-size: 0.85rem;
+  color: var(--text-subtle);
+  margin-top: 0.2rem;
+}
+
+.data-mode-tag {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--text-subtle);
+  background-color: #f1f5f9;
+  padding: 0.3rem 0.7rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--border-subtle);
+}
+
+.slots-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.25rem;
+}
+
+.slot-card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.4rem;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-fast), box-shadow var(--transition-fast), border-color var(--transition-fast);
+}
+
+.slot-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+/* Winning Card Highlight */
+.slot-card.is-winner {
+  border-color: var(--brand-primary);
+  border-width: 2px;
+  background: linear-gradient(180deg, #ffffff 0%, #f0fdfa 100%);
+  box-shadow: var(--shadow-winner);
+}
+
+/* Missing Slot Card */
+.slot-card.is-missing {
+  background-color: #f8fafc;
+  border-style: dashed;
+  border-color: #cbd5e1;
+  opacity: 0.85;
+}
+
+.slot-top-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.slot-name-col {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+}
+
+.slot-time-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: var(--radius-md);
+  background-color: #f1f5f9;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.15rem;
+  flex-shrink: 0;
+}
+
+.slot-name {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+}
+
+.slot-hours {
+  font-size: 0.775rem;
+  color: var(--text-subtle);
+  font-weight: 500;
+}
+
+.slot-badge-best {
+  font-size: 0.7rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  background-color: var(--brand-primary);
+  color: #ffffff;
+  white-space: nowrap;
+}
+
+.slot-badge-tie {
+  background-color: #0284c7;
+}
+
+/* AQI Big Display */
+.slot-score-area {
+  margin: 0.8rem 0 1.2rem;
+  display: flex;
+  align-items: baseline;
+  gap: 0.6rem;
+}
+
+.slot-aqi-value {
+  font-size: 2.75rem;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.03em;
+}
+
+.slot-aqi-unit {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-subtle);
+  text-transform: uppercase;
+}
+
+.slot-status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.775rem;
+  font-weight: 700;
+  margin-bottom: 1.1rem;
+  align-self: flex-start;
+}
+
+/* Details list */
+.slot-meta-list {
+  border-top: 1px solid var(--border-subtle);
+  padding-top: 0.85rem;
+  list-style: none;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.slot-meta-item {
+  display: flex;
+  justify-content: space-between;
+}
+
+.slot-meta-label {
+  color: var(--text-subtle);
+}
+
+.slot-meta-val {
+  font-weight: 600;
+  color: var(--brand-navy);
+}
+
+/* Missing Slot Details */
+.missing-indicator {
+  padding: 1.25rem 0.5rem;
+  text-align: center;
+  color: var(--text-subtle);
+}
+
+.missing-badge {
+  display: inline-block;
+  background-color: #fee2e2;
+  color: #b91c1c;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.missing-note {
+  font-size: 0.8rem;
+  line-height: 1.4;
+}
+
+/* --------------------------------------------------------------------------
+   Two-Column Analytics & Guidance Section
+   -------------------------------------------------------------------------- */
+.analytics-layout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin-bottom: 2.25rem;
+}
+
+.card {
+  background-color: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  box-shadow: var(--shadow-sm);
+}
+
+.panel-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 1.25rem;
+}
+
+.panel-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--brand-navy);
+  letter-spacing: -0.02em;
+}
+
+.panel-subtitle {
+  font-size: 0.825rem;
+  color: var(--text-subtle);
+  margin-top: 0.15rem;
+}
+
+.chart-legend-pill {
+  font-size: 0.725rem;
+  font-weight: 600;
+  color: var(--text-subtle);
+  background-color: #f8fafc;
+  border: 1px solid var(--border-subtle);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-full);
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  flex-wrap: wrap;
+}
+
+.legend-color-box {
+  width: 9px;
+  height: 9px;
+  border-radius: 2px;
+  display: inline-block;
+}
+.legend-color-box.good { background-color: var(--cpcb-good-badge); }
+.legend-color-box.sat { background-color: var(--cpcb-sat-badge); }
+.legend-color-box.mod { background-color: var(--cpcb-mod-badge); }
+.legend-color-box.poor { background-color: var(--cpcb-poor-badge); }
+
+.chart-footnote {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.75rem;
+  color: var(--text-subtle);
+  margin-top: 1rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid var(--border-subtle);
+  line-height: 1.4;
+}
+
+.intensity-pill {
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  padding: 0.25rem 0.7rem;
+  border-radius: var(--radius-full);
+  letter-spacing: 0.04em;
+  white-space: nowrap;
+}
+
+.intensity-pill.low {
+  background-color: #f1f5f9;
+  color: var(--text-muted);
+}
+
+.intensity-pill.medium {
+  background-color: #eff6ff;
+  color: #1d4ed8;
+}
+
+.intensity-pill.high {
+  background-color: #fef3c7;
+  color: #b45309;
+}
+
+/* Guidance Content Area */
+.guidance-body {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.guidance-block {
+  border-radius: var(--radius-md);
+  padding: 1rem 1.15rem;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+.guidance-block.general {
+  background-color: #f8fafc;
+  border: 1px solid var(--border-subtle);
+}
+
+.guidance-block.general h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.guidance-block.specific {
+  background-color: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #166534;
+}
+
+.guidance-block.specific.alert-level {
+  background-color: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #9a3412;
+}
+
+.guidance-block.specific h4 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.guidance-list {
+  margin-top: 0.5rem;
+  padding-left: 1.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+/* High Exertion Warning Badge in Guidance */
+.respiratory-warning {
+  background-color: #fef2f2;
+  border: 1.5px solid #f87171;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.15rem;
+  color: #991b1b;
+  font-size: 0.875rem;
+  line-height: 1.45;
+}
+
+.respiratory-warning h4 {
+  font-size: 0.925rem;
+  font-weight: 800;
+  color: #7f1d1d;
+  margin-bottom: 0.35rem;
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+}
+
+/* --------------------------------------------------------------------------
+   India CPCB NAQI Reference Scale Strip Section
+   -------------------------------------------------------------------------- */
+.scale-section {
+  margin-bottom: 2.25rem;
+}
+
+.scale-title {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--brand-navy);
+  margin-bottom: 0.2rem;
+}
+
+.scale-description {
+  font-size: 0.825rem;
+  color: var(--text-subtle);
+  margin-bottom: 1.25rem;
+}
+
+.aqi-scale-bar {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 0.65rem;
+}
+
+.scale-tier {
+  border-radius: var(--radius-md);
+  padding: 0.9rem 0.75rem;
+  font-size: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid;
+}
+
+.tier-range {
+  font-size: 0.85rem;
+  font-weight: 800;
+  margin-bottom: 0.2rem;
+}
+
+.tier-name {
+  font-weight: 700;
+  font-size: 0.78rem;
+  margin-bottom: 0.45rem;
+}
+
+.tier-desc {
+  font-size: 0.72rem;
+  line-height: 1.35;
+  opacity: 0.9;
+}
+
+/* Color Classes for CPCB NAQI Tiers */
+.tier-good { background: var(--cpcb-good-bg); border-color: var(--cpcb-good-border); color: var(--cpcb-good-text); }
+.tier-satisfactory { background: var(--cpcb-sat-bg); border-color: var(--cpcb-sat-border); color: var(--cpcb-sat-text); }
+.tier-moderate { background: var(--cpcb-mod-bg); border-color: var(--cpcb-mod-border); color: var(--cpcb-mod-text); }
+.tier-poor { background: var(--cpcb-poor-bg); border-color: var(--cpcb-poor-border); color: var(--cpcb-poor-text); }
+.tier-very-poor { background: var(--cpcb-vpoor-bg); border-color: var(--cpcb-vpoor-border); color: var(--cpcb-vpoor-text); }
+.tier-severe { background: var(--cpcb-severe-bg); border-color: var(--cpcb-severe-border); color: var(--cpcb-severe-text); }
+
+/* --------------------------------------------------------------------------
+   Government Data Investigation Note Banner
+   -------------------------------------------------------------------------- */
+.gov-source-card {
+  background-color: #f0fdfa;
+  border: 1px solid #ccfbf1;
+  border-left: 5px solid #0f766e;
+  border-radius: var(--radius-lg);
+  padding: 1.35rem 1.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  color: #134e4a;
+  line-height: 1.5;
+}
+
+.gov-source-header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: #115e59;
+  margin-bottom: 0.45rem;
+}
+
+/* --------------------------------------------------------------------------
+   Medical & Safety Disclaimer
+   -------------------------------------------------------------------------- */
+.disclaimer-card {
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-left: 5px solid #64748b;
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  gap: 1.25rem;
+  box-shadow: var(--shadow-sm);
+  margin-bottom: 1.5rem;
+}
+
+.disclaimer-icon-col {
+  color: #64748b;
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+}
+
+.disclaimer-text-col {
+  font-size: 0.835rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  display: flex;
+  flex-direction: column;
+  gap: 0.55rem;
+}
+
+.disclaimer-title {
+  font-size: 0.95rem;
+  font-weight: 800;
+  color: var(--brand-navy);
+  margin-bottom: 0.1rem;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+.site-footer {
+  background-color: var(--bg-surface);
+  border-top: 1px solid var(--border-subtle);
+  padding: 1.4rem 0;
+  margin-top: auto;
+  font-size: 0.8rem;
+  color: var(--text-subtle);
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.footer-dot {
+  margin: 0 0.4rem;
+  opacity: 0.5;
+}
+
+/* --------------------------------------------------------------------------
+   Responsive Breakpoints & Mobile Optimization
+   -------------------------------------------------------------------------- */
+@media (max-width: 1024px) {
+  .aqi-scale-bar {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+@media (max-width: 860px) {
+  .controls-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .analytics-layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .slots-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recom-content-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .recom-metric-box {
+    margin-top: 0.5rem;
+  }
+}
+
+@media (max-width: 640px) {
+  .header-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .brand-title {
+    font-size: 1.2rem;
+  }
+
+  .sample-badge {
+    font-size: 0.7rem;
+    padding: 0.35rem 0.75rem;
+  }
+
+  .aqi-scale-bar {
+    grid-template-columns: 1fr;
+  }
+
+  .recom-card {
+    padding: 1.25rem;
+  }
+
+  .recom-title {
+    font-size: 1.4rem;
+  }
+
+  .recom-aqi-num {
+    font-size: 2.5rem;
+  }
+
+  .activity-btn {
+    font-size: 0.8rem;
+    padding: 0.55rem 0.35rem;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}

@@ -1,0 +1,122 @@
+/**
+ * CleanAir Window — India CPCB National AQI Dataset
+ * 
+ * IMPORTANT: This data contains SIMULATED READINGS for Pune, Mumbai, and Delhi.
+ * It is formatted strictly in accordance with India's Central Pollution Control Board (CPCB)
+ * National Air Quality Index (NAQI) guidelines for hackathon demonstration.
+ * 
+ * Scale: CPCB NAQI (0 - 500)
+ * Categories: Good (0-50), Satisfactory (51-100), Moderate (101-200),
+ *             Poor (201-300), Very Poor (301-400), Severe (401-500)
+ */
+
+window.CLEAN_AIR_SAMPLE_DATA = {
+  metadata: {
+    version: "2.1.0",
+    isSampleData: true,
+    dataSourceNote: "SIMULATED READINGS — NOT REAL-TIME GOVT FEED. Formatted to India Central Pollution Control Board (CPCB) NAQI specifications for demonstration.",
+    scale: "India National Air Quality Index (CPCB NAQI, 0 - 500)",
+    scaleStandard: "Central Pollution Control Board (CPCB), Ministry of Environment, Forest and Climate Change (MoEFCC), Govt. of India",
+    categories: [
+      { name: "Good", range: "0 - 50", color: "#16a34a" },
+      { name: "Satisfactory", range: "51 - 100", color: "#65a30d" },
+      { name: "Moderate", range: "101 - 200", color: "#d97706" },
+      { name: "Poor", range: "201 - 300", color: "#ea580c" },
+      { name: "Very Poor", range: "301 - 400", color: "#dc2626" },
+      { name: "Severe", range: "401 - 500", color: "#7f1d1d" }
+    ],
+    lastMockUpdate: "2026-10-28T15:00:00+05:30"
+  },
+  locations: [
+    {
+      id: "pune",
+      name: "Pune",
+      state: "Maharashtra",
+      station: "Shivajinagar Station (IITM / SAFAR)",
+      description: "Deccan plateau urban valley. Cleanest air in the morning before traffic and evening temperature inversion trap vehicular emissions.",
+      readings: {
+        morning: {
+          timeRange: "6:00 AM – 11:00 AM",
+          aqi: 68,
+          primaryPollutant: "PM2.5",
+          temperature: "22°C / 72°F",
+          humidity: "62%"
+        },
+        afternoon: {
+          timeRange: "12:00 PM – 5:00 PM",
+          aqi: 110,
+          primaryPollutant: "Ozone (O3)",
+          temperature: "31°C / 88°F",
+          humidity: "42%"
+        },
+        evening: {
+          timeRange: "6:00 PM – 10:00 PM",
+          aqi: 88,
+          primaryPollutant: "PM10",
+          temperature: "26°C / 79°F",
+          humidity: "55%"
+        }
+      }
+    },
+    {
+      id: "mumbai",
+      name: "Mumbai",
+      state: "Maharashtra",
+      station: "Bandra Kurla Complex (MPCB)",
+      description: "Coastal metropolis. High morning commuter traffic followed by strong afternoon sea-breeze dispersion.",
+      readings: {
+        morning: {
+          timeRange: "6:00 AM – 11:00 AM",
+          aqi: 128,
+          primaryPollutant: "PM2.5",
+          temperature: "27°C / 81°F",
+          humidity: "78%"
+        },
+        afternoon: {
+          timeRange: "12:00 PM – 5:00 PM",
+          aqi: 85,
+          primaryPollutant: "PM10",
+          temperature: "32°C / 90°F",
+          humidity: "64%"
+        },
+        evening: {
+          timeRange: "6:00 PM – 10:00 PM",
+          aqi: 142,
+          primaryPollutant: "NO2 / PM2.5",
+          temperature: "29°C / 84°F",
+          humidity: "72%"
+        }
+      }
+    },
+    {
+      id: "delhi",
+      name: "Delhi",
+      state: "Delhi NCR",
+      station: "Anand Vihar (DPCC)",
+      description: "High particulate loading in the Indo-Gangetic plain. Morning and evening surface inversion create elevated pollution episodes.",
+      readings: {
+        morning: {
+          timeRange: "6:00 AM – 11:00 AM",
+          aqi: 340,
+          primaryPollutant: "PM2.5",
+          temperature: "19°C / 66°F",
+          humidity: "82%"
+        },
+        afternoon: {
+          timeRange: "12:00 PM – 5:00 PM",
+          aqi: 225,
+          primaryPollutant: "PM10",
+          temperature: "28°C / 82°F",
+          humidity: "50%"
+        },
+        evening: {
+          timeRange: "6:00 PM – 10:00 PM",
+          aqi: 385,
+          primaryPollutant: "PM2.5",
+          temperature: "22°C / 72°F",
+          humidity: "75%"
+        }
+      }
+    }
+  ]
+};
